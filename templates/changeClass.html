@@ -1,0 +1,249 @@
+{% extends 'start1.html' %}
+{% load static %}
+{% static "images" as baseUrl %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/stylee.css'%}">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      <style>
+        .custom-select {
+          position: relative;
+          font-family: Arial;
+        }
+        
+        .custom-select select {
+          display: none; /*hide original SELECT element:*/
+        }
+        
+        .select-selected {
+          background-color: DodgerBlue;
+        }
+        
+        /*style the arrow inside the select element:*/
+        .select-selected:after {
+          position: absolute;
+          content: "";
+          top: 14px;
+          right: 10px;
+          width: 0;
+          height: 0;
+          border: 6px solid transparent;
+          border-color: #fff transparent transparent transparent;
+        }
+        
+        /*point the arrow upwards when the select box is open (active):*/
+        .select-selected.select-arrow-active:after {
+          border-color: transparent transparent #fff transparent;
+          top: 7px;
+        }
+        
+        /*style the items (options), including the selected item:*/
+        .select-items div,.select-selected {
+          color: #ffffff;
+          padding: 8px 16px;
+          border: 1px solid transparent;
+          border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+          cursor: pointer;
+          user-select: none;
+        }
+        
+        /*style items (options):*/
+        .select-items {
+          position: absolute;
+          background-color: DodgerBlue;
+          top: 100%;
+          left: 0;
+          right: 0;
+          z-index: 99;
+        }
+        
+        /*hide the items when the select box is closed:*/
+        .select-hide {
+          display: none;
+        }
+        
+        .select-items div:hover, .same-as-selected {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      </style>
+      </head>
+<body>
+    {% block content %}
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal1">Add Class</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal2">Edit Class</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal3">Delete Class</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal4">Edit Class Faculty</button>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal1" role="dialog">
+          <div class="modal-dialog">
+          
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Class</h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-group" action="/addClass" method="post">
+                  {% csrf_token %}
+                  <div class="container">
+                    <div class="md-form input-group mb-3"> 
+                      <input type="text" style="margin-left: 60%;" class="form-control" aria-label="Username" aria-describedby="material-addon1" placeholder="Enter Class Name" name="class" required>
+                    </div><br>
+                  <div class="dropdown">
+                      <select name="faculty" class="form-control" id="email" style="background-color:aliceblue;margin-left:12.5%; width: 20.5%" required>
+                        <option value="" disabled selected>Add Class Faculty</option>
+                            {% for d in mail %}
+                            <option value="{{d}}">{{d}}</option>
+                            {% endfor %}
+                      </select>
+                    </div><br>
+                  <button type="submit" style="width:15%; margin-left: 15%" class="btn btn-default">Add</button><br>
+                  </div>
+              </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        <div class="modal fade" id="myModal2" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Edit Class</h4>
+                </div>
+                <div class="modal-body">
+                  <form action="/editClass" method="post">
+                    {% csrf_token %}
+                    <div class="container">
+                        
+                        <div class="dropdown">
+                            <select name="oldclass" style="background-color:aliceblue; margin-left: 12.5%; width: 20.5%" class="form-control" id="email" required>
+                              <option value="" disabled selected>Old Class </option>
+                                  {% for d in class %}
+                                  <option value="{{d}}">{{d}}</option>
+                                  {% endfor %}
+                            </select>
+                        </div> 
+                    <br>
+                    <div class="md-form input-group mb-3"> 
+                      <input type="text" style="margin-left: 60%;" class="form-control" aria-label="Username" aria-describedby="material-addon1" placeholder="Enter New Class Name" name="class" required><br>
+                    </div><br>
+                    <button type="submit" style="width:15%; margin-left: 15%;" class="btn btn-default">Edit</button><br>
+                    </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          
+          <div class="modal fade" id="myModal3" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Delete Class</h4>
+                </div>
+                <div class="modal-body">
+                  <form action="/deleteClass" method="post">
+                    {% csrf_token %}
+                    <div class="container">
+                        
+                            <div class="dropdown">
+                                <select name="class" style="background-color:aliceblue; margin-left: 12.5%; width: 20.5%" class="form-control" id="email" required>
+                                  <option value="" disabled selected>Class</option>
+                                      {% for d in class %}
+                                      <option value="{{d}}">{{d}}</option>
+                                      {% endfor %}
+                                </select>
+                            </div> 
+                        <br>
+                    <button type="submit" style="width:15%; margin-left: 15%;" class="btn btn-default">Delete</button><br>
+                    </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+          <div class="modal fade" id="myModal4" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Edit Class Faculty</h4>
+                </div>
+                <div class="modal-body">
+                  <form action="/editClassFaculty" method="post">
+                    {% csrf_token %}
+                    <div class="container">
+                        
+                        <div class="dropdown">
+                            <select name="class" style="background-color:aliceblue; margin-left: 12.5%; width: 20.5%" class="form-control" id="email" required>
+                              <option value="" disabled selected> Class </option>
+                                  {% for d in class %}
+                                  <option value="{{d}}">{{d}}</option>
+                                  {% endfor %}
+                            </select>
+                        </div> <br>
+                        <div class="dropdown">
+                            <select name="classfaculty" style="background-color:aliceblue; margin-left: 12.5%; width: 20.5%" class="form-control" id="email" required>
+                              <option value="" disabled selected>Change Class Faculty</option>
+                                  {% for d in mail %}
+                                  <option value="{{d}}">{{d}}</option>
+                                  {% endfor %}
+                            </select>
+                        </div><br>
+                    <button type="submit" style="width:15%; margin-left: 15%;" class="btn btn-default">Edit</button><br>
+                    </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+      </div>
+      <div>
+        {% if messages != '' %}
+        {% for message in messages %}
+        <h3> {{message}} </h3>
+        {% endfor %}
+        {% endif %}
+      </div>
+        {% endblock %}
+</body>
+</html>

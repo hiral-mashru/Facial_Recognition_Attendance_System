@@ -1,0 +1,144 @@
+{% extends 'start1.html' %}
+<!DOCTYPE html>
+<html>
+<body>
+{% block content %}
+<div>
+  {% if messages != '' %}
+  {% for message in messages %}
+  <h3> {{message}} </h3>
+  {% endfor %}
+  {% endif %}
+</div>
+
+<br><br><br>
+{% if flag == 'a' %}
+      <div class="modal-content animate"><br>
+        <center><h2>Manual Attendance</h2></center>
+        <form action="/manualAttendance" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="dropdown"><center>
+                  <select name="clas" class="form-control" id="email" style="background-color:aliceblue; width: 50%" required>
+                    <option value="" class="form-control" id="email" disabled selected>Class</option>
+                    {% for d in class %}
+                    <option value="{{d}}">{{d}}</option>
+                    {% endfor %}
+                  </select></center>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="dropdown"><center>
+                  <select name="day" class="form-control" id="email" style="background-color:aliceblue; width: 50%" required>
+                    <option value="" class="form-control" id="email" disabled selected>Day</option>
+                    {% for d in day %}
+                    <option value="{{d}}">{{d}}</option>
+                    {% endfor %}
+                  </select></center>
+                </div>
+              </div>
+              <center><button type="submit" style="width: 50%;" class="btn btn-default">Go Ahead</button></center>
+          </form><br>
+      </div>
+     {% endif %}
+<br>
+{% if flag == 'b' %}
+        <div class="modal-content animate"><br>
+          <form action="/attend" method="POST">
+              {% csrf_token %}
+              <label> <input type="hidden" name="self" value="{{user.email}}" fixed></label>
+              <lable><input type="hidden" name="clsss" value="{{chosenclass}}" fixed></lable> 
+              <label><input type="hidden" name="dtt" value="{{chosendate}}" fixed></label>
+              <div class="form-group">
+                  <div class="dropdown"><center>
+                    <select name="schedule" class="form-control" id="email" style="background-color:aliceblue; width: 50%" required>
+                      <option value="" class="form-control" id="email" disabled selected>Schedule</option>
+                      {% for d in scheduledata %}
+                      <option value="{{d.id}}">{{d.start}} to {{d.end}}</option>
+                      {% endfor %}
+                    </select></center>
+                  </div><br>
+                </div>
+                <center><button type="submit" style="width: 50%;" class="btn btn-default">Go Ahead</button></center>
+            </form><br>
+            
+        </div>
+{% endif %}
+{% if flag == 'c' %}
+<!-- <p><a class= "btn btn-primary btn-learn href="#"  data-toggle="modal" data-target="#exampleModal">Attendence</a></p> -->
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ATTENDENCE</h5>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body">
+        <form action="/attended" method="POST">
+          {% csrf_token %}
+          <input type="hidden" value="{{schedule}}" name="schedule" fixed><br>
+        <div class="holder">
+      <table width="100%">
+        <thead><tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Select All</td>
+          <td>
+            <div class="attendance">
+              <input type="checkbox" id="checkAll"/>
+                <span></span>
+            </div>
+          </td>
+          </tr>
+        </thead>
+          <tbody>
+            {% with i=1 %}
+                {% for d in data %}
+                <!-- <tr> -->
+                <!-- <td></td>
+                <td></td> -->
+                <td>{{d}}</td>
+                <td>
+                  <div class="attendance">
+                    <input name="rollno[]" value="{{d}}" type="checkbox"/>
+                      <span></span>
+                  </div>
+                </td>
+                <!-- </tr> -->
+                {% endfor %} 
+                {% endwith %}         
+            </tbody>
+      </table>
+</div>
+ 
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+    </div>
+  </div>
+<!-- </div> -->
+        <!-- <div class="modal-content animate"><br>
+          <form action="/attended" method="POST">
+            {% csrf_token %}
+            <input type="hidden" value="{{schedule}}" name="schedule" fixed><br>
+            <div class="form-group"><br><center>
+              {% for d in data %}
+              <input type="checkbox" name="rollno[]" value="{{d}}">
+              <label type="checkbox" id="email" style="background-color:aliceblue; width: 20%" for="vehicle1"> {{d}} </label><br>
+              {% endfor %}</center>
+            </div>
+              <center><button type="submit" style="width: 50%;" class="btn btn-default">Go Ahead</button></center>
+          </form><br>
+        </div> -->
+        {% endif %}
+        <br>
+{% endblock %}
+</body>
+</html>

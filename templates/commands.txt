@@ -1,0 +1,13 @@
+# C:\Users\Administrator\projects\AttendanceProject\
+# workon project
+# python manage.py runserver
+python manage.py makemigrations login
+python manage.py startapp login
+python manage.py sqlmigrate login 0001
+python manage.py check
+python manage.py migrate
+Change your models (in models.py).
+Run python manage.py makemigrations to create migrations for those changes
+Run python manage.py migrate to apply those changes to the database.
+https://docs.djangoproject.com/en/3.1/intro/tutorial02/
+https://docs.djangoproject.com/en/3.1/ref/models/fields/

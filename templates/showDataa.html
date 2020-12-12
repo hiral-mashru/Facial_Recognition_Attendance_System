@@ -1,0 +1,693 @@
+{% extends 'start1.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+  .t1 {
+    float: left;
+    width: 15%;
+}
+  #t0 {
+    float: left;
+    width: 15%;
+  }
+  #t1 {
+    float: left;
+    width: 15%;
+  }
+</style>
+</head>
+<body>
+{% block content %}
+<div class="container">
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal1">Show Class</button>
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal2">Show Subject</button>
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal3">Show Faculty</button>
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal4" onclick="nascondiBoxDocumentazione1()">Show Student</button>
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal5" onclick="nascondiBoxDocumentazione()">Show Schedule</button>
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal6">Show Attendance</button>
+   <!-- Modal -->
+  <div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Show Class</h4>
+        </div>
+        <div class="modal-body">
+          <div id="customers1"><center>
+            <table>
+                <tr>
+                  <th>Class</th>
+                  <th>Class Faculty</th>
+                </tr>
+                {% for d in classdata %}
+                <tr>
+                  <td>{{d.ClassName}}</td>
+                  <td>{{d.ClassFaculty}}</td>
+                </tr>
+                {% endfor %}
+                </table></center>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Show Subject</h4>
+        </div>
+        <div class="modal-body">
+          <div id="customers2"><center>
+            <table>
+              <tr>
+                <th>Subject</th>
+                <th>Subject Faculty</th>
+              </tr>
+              {% for d in subjectdata %}
+              <tr>
+                <td>{{d.SubName}}</td>
+                <td>{{d.SubFaculty}}</td>
+              </tr>
+              {% endfor %}
+            </table></center>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+    
+    <div class="modal fade" id="myModal3" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Show Faculty List</h4>
+          </div>
+          <div class="modal-body">
+            <div id="customers3"><center>
+              <table>
+                <tr>
+                  <th>Faculty Name</th>
+                  <th>Faculty's EmailID</th>
+                </tr>
+                {% for d in facultydata %}
+                <tr>
+                  <td>{{d.FName}}</td>
+                  <td>{{d.Faculty}}</td>
+                </tr>
+                {% endfor %}
+              </table></center>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="modal fade" id="myModal4" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Show Student List</h4>
+          </div>
+          <div class="modal-body">
+            <form action="/showData" method="POST">
+              {% csrf_token %}
+              <select style="background-color:aliceblue; margin-left: 40%; width: 20.5%" class="form-control" id="email" name="classs" required>
+                  <option value="" disabled selected>Class</option>
+                  {% for d in classdata %}
+                  <option value="{{d.ClassName}}">{{d.ClassName}}</option>
+                  {% endfor %}
+              </select><br>
+              <button style="width:31%; margin-left: 35%;" class="btn btn-default" data-toggle="modal" data-target="#myModall4" type="submit">Show student</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+</div>
+{% if flag == 'b'%}
+<div>
+  <div class="container">
+    <div class="row">
+        <div class="col-sm-3" style="width:15%;">
+            <div class="card">
+                <!-- <img class="card-img-top img-fluid" src="//placehold.it/500x200" alt="Card image cap"> -->
+                <div class="card-block"><br>
+                    <h4 class="card-title">SID</h4>
+                    <p class="card-text">
+                        {% for d in studentdata %}
+                        <b>{{d.SID}}</b>
+                        <br>
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3" style="width:15%;">
+          <div class="card">
+              <!-- <img class="card-img-top img-fluid" src="//placehold.it/500x200" alt="Card image cap"> -->
+              <div class="card-block"><br>
+                  <h4 class="card-title">Name</h4>
+                  <p class="card-text">
+                      {% for d in studentdata %}
+                      <b>{{d.SName}}</b>
+                      <br>
+                      {% endfor %}
+                  </p>
+              </div>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
+{% endif %}
+<div class="modal fade" id="myModal5" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Show SChedule List</h4>
+      </div>
+      <div class="modal-body">
+        <form action="/showData" method="POST">
+          {% csrf_token %}
+          
+          <select style="background-color:aliceblue; margin-left: 40%; width: 20.5%" class="form-control" id="email" name="class" required>
+              <option value="" disabled selected>Class</option>
+              {% for d in classdata %}
+              <option value="{{d.ClassName}}">{{d.ClassName}}</option>
+              {% endfor %}
+          </select><br>
+          <button id="myBtn2" style="width:30%; margin-left: 36%;" onclick="nascondiBoxDocumentazione()" class="btn btn-default" type="submit">Show schedule</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<br>
+{% if flag == 'c' %}
+<div class="container">
+  <div class="row">
+      <div class="col-sm-3" style="width:15%; background-color:lightgray">
+          <div class="card">
+              <!-- <img class="card-img-top img-fluid" src="//placehold.it/500x200" alt="Card image cap"> -->
+              <div class="card-block"><br>
+                  <h4 class="card-title">{{mid}}</h4>
+                  <p class="card-text">
+                      {% for d in monday %}
+                      <b>{{d.start}} to {{d.end}}</b><br>
+                      {{d.sub}}<br>
+                      {{d.fac}}<br>
+                      <br>
+                      {% endfor %}
+                  </p>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-3" style="width:15%; background-color:beige">
+          <div class="card">
+            <div class="card-block"><br>
+              <h4 class="card-title">{{tid}}</h4>
+              <p class="card-text">
+                  {% for d in tuesday %}
+                  <b>{{d.start}} to {{d.end}}</b><br>
+                      {{d.sub}}<br>
+                      {{d.fac}}<br>
+                      <br>
+                    {% endfor %}
+              </p>
+          </div>
+          </div>
+      </div>
+      <div class="col-sm-3" style="width:15%; background-color:aquamarine">
+          <div class="card">
+              <!-- <img class="card-img-top img-fluid" src="//placehold.it/500x180" alt="Card image cap"> -->
+              <div class="card-block"><br>
+                <h4 class="card-title">{{wid}}</h4>
+                <p class="card-text" style="margin-top: 0px;">
+                    {% for d in wednesday %}
+                      <b>{{d.start}} to {{d.end}}</b><br>
+                      {{d.sub}}<br>
+                      {{d.fac}}<br>
+                      <br>
+                      {% endfor %}
+                </p>
+            </div>
+          </div>
+      </div>
+      <div class="col-sm-3" style="width:15%; background-color:cornsilk">
+          <div class="card">
+            <div class="card-block"><br>
+              <h4 class="card-title">{{thid}}</h4>
+              <p class="card-text">
+                  {% for d in thursday %}
+                  <b>{{d.start}} to {{d.end}}</b><br>
+                      {{d.sub}}<br>
+                      {{d.fac}}<br>
+                      <br>
+                    {% endfor %}
+              </p>
+          </div>
+          </div>
+      </div>
+      <div class="col-sm-3" style="width:15%; background-color:khaki">
+        <div class="card">
+            <!-- <img class="card-img-top img-fluid" src="//placehold.it/500x200" alt="Card image cap"> -->
+            <div class="card-block"><br>
+              <h4 class="card-title">{{fid}}</h4>
+              <p class="card-text">
+                  {% for d in friday %}
+                  <b>{{d.start}} to {{d.end}}</b><br>
+                      {{d.sub}}<br>
+                      {{d.fac}}<br>
+                      <br>
+                  {% endfor %}
+              </p>
+          </div>
+        </div>
+    </div>
+    <div class="col-sm-3" style="width:15%; background-color:lemonchiffon">
+      <div class="card">
+          <!-- <img class="card-img-top img-fluid" src="//placehold.it/500x200" alt="Card image cap"> -->
+          <div class="card-block"><br>
+            <h4 class="card-title">{{sid}}</h4>
+            <p class="card-text">
+                {% for d in saturday %}
+                <b>{{d.start}} to {{d.end}}</b><br>
+                      {{d.sub}}<br>
+                      {{d.fac}}<br>
+                      <br>
+                  {% endfor %}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<div class="modal fade" id="myModal6" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Show Attendance List</h4>
+      </div>
+      <div class="modal-body">
+        <form action="/showData" method="POST">
+          {% csrf_token %}
+          
+          <select style="background-color:aliceblue; margin-left: 40%; width: 20.5%" class="form-control" id="email" name="clas" required>
+              <option value="" disabled selected>Class</option>
+              {% for d in classdata %}
+              <option value="{{d.ClassName}}">{{d.ClassName}}</option>
+              {% endfor %}
+          </select>
+          <br>
+
+          <select style="background-color:aliceblue; margin-left: 40%; width: 20.5%" class="form-control" id="email" name="date" required>
+              <option value="" disabled selected>Date</option>
+              {% for d in date %}
+              <option value="{{d}}">{{d}}</option>
+              {% endfor %}
+          </select><br>
+          <button id="myBtn3" style="width:21%; margin-left: 40%;" class="btn btn-default" type="submit">Go ahead</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+{% if flag == 'd' %}
+        <div class="modal-content animate"><br>
+          <form action="/showData" method="POST">
+              {% csrf_token %}
+              <lable><b> <input type="hidden" name="clsss" value="{{chosenclass}}" fixed></b></lable> 
+              <label><b></b> <input type="hidden" name="dtt" value="{{chosendate}}" fixed></label>
+              <div class="form-group">
+                  <div class="dropdown"><center>
+                    <select name="schedule" class="form-control" id="email" style="background-color:aliceblue; width: 50%" required>
+                      <option value="" class="form-control" id="email" disabled selected>Schedule</option>
+                      {% for d in scheduledata %}
+                      <option value="{{d.id}}">{{d.start}} to {{d.end}}</option>
+                      {% endfor %}
+                    </select></center>
+                  </div><br>
+                </div>
+                <center><button type="submit" style="width: 50%;" class="btn btn-default">Go Ahead</button></center>
+            </form><br>
+        </div>
+{% endif %}
+{% if flag == 'e' %}
+        <div class="modal-content animate"><br><center>
+          <lable class="form-control" id="email"><b>Class: {{chosenclass}}</b></lable>
+          <label class="form-control" id="email"><b>Subject:</b> {{subjectt}}</label>
+          <label class="form-control" id="email"><b>Date:</b> {{chosendate}}</label>
+          <label class="form-control" id="email"><b>Faculty:</b> {{fmail}}</label>
+          <label class="form-control" id="email"><b>Schedule:</b> {{start}} to {{end}} </label>
+          </center><center> <table>
+              <tr>
+                <th>Student RollNo</th>
+                <th>Attendance</th>
+              </tr>
+              {% for d in data %}
+              <tr>
+                <td>{{d.student}}</td>
+                <td>{{d.Attend}}</td>
+              </tr>
+              {% endfor %}
+              </table></center> <br>
+        </div>
+        {% endif %}
+
+
+
+</div> 
+<!-- --------------------------------------------------------------------- -->
+<button id="btn1">Show Class</button>
+<button id="btn2">Show Subject</button>
+<button id="btn3">Show Faculty</button>
+<button id="btn4">Show Student</button>
+<button id="btn5">Show Schedule</button>
+<button id="btn6">Show Attendance</button>
+<div id="div1">
+<h2>Class</h2>
+<div id="customers1">
+    <table>
+        <tr>
+          <th>Class</th>
+          <th>Class Faculty</th>
+        </tr>
+        {% for d in classdata %}
+        <tr>
+          <td>{{d.ClassName}}</td>
+          <td>{{d.ClassFaculty}}</td>
+        </tr>
+        {% endfor %}
+        </table>
+      </div>
+    </div>
+<div id="div2">
+  <h2>Subject</h2>
+    <div id="customers2">
+      <table>
+        <tr>
+          <th>Subject</th>
+          <th>Subject Faculty</th>
+        </tr>
+        {% for d in subjectdata %}
+        <tr>
+          <td>{{d.SubName}}</td>
+          <td>{{d.SubFaculty}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+</div>
+<div id="div3">
+<h2>Faculty</h2>
+<div id="customers3">
+  <table>
+    <tr>
+      <th>Faculty Name</th>
+      <th>Faculty's EmailID</th>
+    </tr>
+    {% for d in facultydata %}
+    <tr>
+      <td>{{d.FName}}</td>
+      <td>{{d.Faculty}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+</div>
+<div id="div4">
+  <h2>Student</h2>
+  <form action="/showData" method="POST">
+    {% csrf_token %}
+    <label for="country">Class</label>
+    <select id="country" name="classs" required>
+        <option value="" disabled selected>Class</option>
+        {% for d in classdata %}
+        <option value="{{d.ClassName}}">{{d.ClassName}}</option>
+        {% endfor %}
+    </select><br>
+    <button id="myBtn1" type="submit">Show student</button>
+  </form>
+  <div id="customers4">
+    <table>
+      <tr>
+        <th>SID</th>
+        <th>Student's Name</th>
+        <th></th>
+      </tr>
+      {% for d in studentdata %}
+      <tr>
+        <td>{{d.SID}}</td>
+        <td>{{d.SName}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  </div>
+<div id="div5">
+  <h2>Schedule</h2>
+  <form action="/showData" method="POST">
+    {% csrf_token %}
+    <label for="country">Class</label>
+    <select id="country" name="class" required>
+        <option value="" disabled selected>Class</option>
+        {% for d in classdata %}
+        <option value="{{d.ClassName}}">{{d.ClassName}}</option>
+        {% endfor %}
+    </select><br>
+    <button id="myBtn2" type="submit">Show schedule</button>
+  </form>
+  <div id="customers5">
+    <table id="t1">
+      <tr>
+        <th><h4>Monday</h4></th>
+      </tr>
+      {% for d in monday %}
+      <tr>
+        <tr><td><b>{{d.start}} to {{d.end}}</b></td></tr>
+        <tr><td>{{d.sub}}</td></tr>
+        <tr><td>{{d.fac}}</td></tr>
+      </tr><br>
+        {% endfor %}
+    </table>
+    <table>
+      <tr>
+        <th><h4>Tuesday</h4></th>
+      </tr>
+      {% for d in tuesday %}
+      <tr>
+        <tr><td><b>{{d.start}} to {{d.end}}</b></td></tr>
+        <tr><td>{{d.sub}}</td></tr>
+        <tr><td>{{d.fac}}</td></tr>
+      </tr><br>
+        {% endfor %}
+    </table>
+    <table>
+      <tr>
+        <th><h4>Wednesday</h4></th>
+      </tr>
+      {% for d in wednesday %}
+      <tr>
+        <tr><td><b>{{d.start}} to {{d.end}}</b></td></tr>
+        <tr><td>{{d.sub}}</td></tr>
+        <tr><td>{{d.fac}}</td></tr>
+      </tr><br>
+        {% endfor %}
+    </table>
+    <table>
+      <tr>
+        <th><h4>Thursday</h4></th>
+      </tr>
+      {% for d in thursday %}
+      <tr>
+        <tr><td><b>{{d.start}} to {{d.end}}</b></td></tr>
+        <tr><td>{{d.sub}}</td></tr>
+        <tr><td>{{d.fac}}</td></tr>
+      </tr><br>
+        {% endfor %}
+    </table>
+    <table>
+      <tr>
+        <th><h4>Friday</h4></th>
+      </tr>
+      {% for d in friday %}
+      <tr>
+        <tr><td><b>{{d.start}} to {{d.end}}</b></td></tr>
+        <tr><td>{{d.sub}}</td></tr>
+        <tr><td>{{d.fac}}</td></tr>
+      </tr><br>
+        {% endfor %}
+    </table>
+    <table>
+      <tr>
+        <th><h4>Saturday</h4></th>
+      </tr>
+      {% for d in saturday %}
+      <tr>
+        <tr><td><b>{{d.start}} to {{d.end}}</b></td></tr>
+        <tr><td>{{d.sub}}</td></tr>
+        <tr><td>{{d.fac}}</td></tr>
+      </tr><br>
+        {% endfor %}
+    </table>
+  </div>
+</div>
+<div id="div6">
+  <h2>Attendance</h2>
+  <form action="/showData" method="POST">
+    {% csrf_token %}
+    <label for="country">Class</label>
+    <select id="country" name="clas" required>
+        <option value="" disabled selected>Class</option>
+        {% for d in classdata %}
+        <option value="{{d.ClassName}}">{{d.ClassName}}</option>
+        {% endfor %}
+    </select>
+    <label for="country">Date</label>
+    <select id="country" name="date" required>
+        <option value="" disabled selected>Date</option>
+        {% for d in date %}
+        <option value="{{d}}">{{d}}</option>
+        {% endfor %}
+    </select>
+    <button id="myBtn3" type="submit">Go ahead</button>
+  </form>
+  <form action="/showData" method="POST">
+    {% csrf_token %}
+    <lable><b>Class: <input type="text" name="clsss" value="{{chosenclass}}" fixed></b></lable><br> 
+    <label><b>Date:</b> <input type="text" name="dtt" value="{{chosendate}}" fixed></label><br>
+    <label for="country">Schedule</label>
+    <select id="country" name="schedule">
+        <option value="" disabled selected>Schedule</option>
+        {% for d in scheduledata %}
+        <option value="{{d.id}}">{{d.start}} to {{d.end}}</option>
+        {% endfor %}
+    </select>
+    <button id="myBtn5" type="submit">Show schedule</button>
+  </form>
+  <div id="customers6">
+    <lable><b>Class: {{chosenclass}}</b></lable><br> 
+    <label><b>Subject:</b> {{subjectt}}</label><br>
+    <label><b>Date:</b> {{chosendate}}</label><br>
+    <label><b>Faculty:</b> {{fmail}}</label><br>
+    <label><b>Schedule:</b> {{start}} to {{end}} </label>
+      <table>
+          <tr>
+            <th>Student RollNo</th>
+            <th>Attendance</th>
+          </tr>
+          {% for d in data %}
+          <tr>
+            <td>{{d.student}}</td>
+            <td>{{d.Attend}}</td>
+          </tr>
+          {% endfor %}
+          </table>
+        </div>
+</div>
+<script>
+  document.getElementById("btn1").addEventListener("click", function(){
+    document.getElementById("div1").style.display = "block";
+    document.getElementById("div2").style.display = "none";
+    document.getElementById("div3").style.display = "none";
+    document.getElementById("div4").style.display = "none";
+    document.getElementById("div5").style.display = "none";
+    document.getElementById("div6").style.display = "none";
+  })
+  document.getElementById("btn2").addEventListener("click", function(){
+    document.getElementById("div1").style.display = "none";
+    document.getElementById("div2").style.display = "block";
+    document.getElementById("div3").style.display = "none";
+    document.getElementById("div4").style.display = "none";
+    document.getElementById("div5").style.display = "none";
+    document.getElementById("div6").style.display = "none";
+  })
+  document.getElementById("btn3").addEventListener("click", function(){
+    document.getElementById("div1").style.display = "none";
+    document.getElementById("div2").style.display = "none";
+    document.getElementById("div3").style.display = "block";
+    document.getElementById("div4").style.display = "none";
+    document.getElementById("div5").style.display = "none";
+    document.getElementById("div6").style.display = "none";
+  })
+  document.getElementById("btn4").addEventListener("click", function(){
+    document.getElementById("div1").style.display = "none";
+    document.getElementById("div2").style.display = "none";
+    document.getElementById("div3").style.display = "none";
+    document.getElementById("div4").style.display = "block";
+    document.getElementById("div5").style.display = "none";
+    document.getElementById("div6").style.display = "none";
+  })
+  document.getElementById("btn5").addEventListener("click", function(){
+    document.getElementById("div1").style.display = "none";
+    document.getElementById("div2").style.display = "none";
+    document.getElementById("div3").style.display = "none";
+    document.getElementById("div4").style.display = "none";
+    document.getElementById("div5").style.display = "block";
+    document.getElementById("div6").style.display = "none";
+  })
+  document.getElementById("btn6").addEventListener("click", function(){
+    document.getElementById("div1").style.display = "none";
+    document.getElementById("div2").style.display = "none";
+    document.getElementById("div3").style.display = "none";
+    document.getElementById("div4").style.display = "none";
+    document.getElementById("div5").style.display = "none";
+    document.getElementById("div6").style.display = "block";
+  })
+</script>
+{% endblock %}
+</body>
+</html>

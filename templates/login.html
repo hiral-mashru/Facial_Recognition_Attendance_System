@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Hello</h1>
+
+<form action="loggedin" method="POST">
+    {% csrf_token %}
+    Enter emailID : <input type="email" name="email"><br>
+    Enter password : <input type="password" name="password"><br>
+    {{ form.as_p }}
+    <input type="submit" value="Register">
+</form>
+<div>
+    {% for message in messages %}
+    <h3> {{message}} </h3>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,225 @@
+{% extends 'start1.html' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <style>
+            body {font-family: Arial, Helvetica, sans-serif;}
+            /* Full-width input fields */
+            input[type=text], input[type=email], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            width: 80%;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            }
+            /* Set a style for all buttons */
+            button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 80%;
+            }
+
+            button:hover {
+            opacity: 0.8;
+            }
+
+            /* Extra styles for the cancel button */
+            .cancelbtn {
+            width: auto;
+            padding: 10px 18px;
+            background-color: #f44336;
+            }
+
+            /* Center the image and position the close button */
+            .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+            position: relative;
+            }
+
+            img.avatar {
+            width: 40%;
+            border-radius: 50%;
+            }
+
+            .container {
+            padding: 16px;
+            }
+
+            span.psw {
+            float: right;
+            padding-top: 16px;
+            }
+
+            /* The Modal (background) */
+            .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+            }
+
+            /* Modal Content/Box */
+            .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            }
+
+            /* The Close Button (x) */
+            .close {
+            position: absolute;
+            right: 25px;
+            top: 0;
+            color: #000;
+            font-size: 35px;
+            font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+            color: red;
+            cursor: pointer;
+            }
+
+            /* Add Zoom Animation */
+            .animate {
+            -webkit-animation: animatezoom 0.6s;
+            animation: animatezoom 0.6s
+            }
+
+            @-webkit-keyframes animatezoom {
+            from {-webkit-transform: scale(0)} 
+            to {-webkit-transform: scale(1)}
+            }
+            
+            @keyframes animatezoom {
+            from {transform: scale(0)} 
+            to {transform: scale(1)}
+            }
+
+            /* Change styles for span and cancel button on extra small screens */
+            @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+            .cancelbtn {
+                width: 100%;
+            }
+            }
+            .containerr{
+                width: 80%;
+            }
+            
+            </style>
+    </head>
+<body>
+    {% block content %}
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal1">Add Faculty</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal3">Delete Faculty</button>
+         <!-- Modal -->
+        <div class="modal fade" id="myModal1" role="dialog">
+          <div class="modal-dialog">
+          
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Faculty</h4>
+              </div>
+              <div class="modal-body">
+                <form action="/addFaculty" method="post">
+                    {% csrf_token %}
+                    <div class="container">
+                      <div class="md-form input-group mb-3"> 
+                        <input type="text" style="margin-left: 60%;" class="form-control" aria-label="Username" aria-describedby="material-addon1" placeholder="Enter Name" name="name" required>
+                      </div><br>
+                      <div class="md-form input-group mb-3"> 
+                        <input type="email" style="margin-left: 60%;" class="form-control" aria-label="Username" aria-describedby="material-addon1" placeholder="Enter EmailID" name="email" required>
+                      </div><br>
+                      <div class="md-form input-group mb-3"> 
+                        <input type="password" style="margin-left: 60%;" class="form-control" aria-label="Username" aria-describedby="material-addon1" placeholder="Enter Password" name="password" required>
+                      </div><br>
+                    <button type="submit" style="width:21%; margin-left: 12%;" class="btn btn-default">Add</button><br>
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+          
+          <div class="modal fade" id="myModal3" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Delete Faculty</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="/deleteFaculty" method="post">
+                        {% csrf_token %}
+                        <div class="container">
+                            <br>
+                            <div class="container">
+                                <div class="dropdown">
+                                    <select name="faculty" style="background-color:aliceblue; margin-left: 12.5%; width: 20.5%" class="form-control" id="email" required>
+                                      <option value="" disabled selected>Faculty</option>
+                                          {% for d in data %}
+                                          <option value="{{d}}">{{d}}</option>
+                                          {% endfor %}
+                                    </select>
+                                </div> 
+                            </div><br>
+                        <button type="submit" style="width:15%; margin-left: 17%;" class="btn btn-default">Delete</button><br>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+      </div>
+      <div>
+        {% if messages != '' %}
+        {% for message in messages %}
+        <h3> {{message}} </h3>
+        {% endfor %}
+        {% endif %}
+    </div>
+        {% endblock %}
+</body>
+</html>

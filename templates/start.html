@@ -1,0 +1,206 @@
+
+<html>
+    <head>
+        
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <style>
+            body {font-family: Arial, Helvetica, sans-serif;}
+            /* Full-width input fields */
+            input[type=email], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            width: 80%;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            }
+
+            /* Set a style for all buttons */
+            button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 80%;
+            }
+
+            button:hover {
+            opacity: 0.8;
+            }
+
+            /* Extra styles for the cancel button */
+            .cancelbtn {
+            width: auto;
+            padding: 10px 18px;
+            background-color: #f44336;
+            }
+
+            /* Center the image and position the close button */
+            .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+            position: relative;
+            }
+
+            img.avatar {
+            width: 40%;
+            border-radius: 50%;
+            }
+
+            .container {
+            padding: 16px;
+            }
+
+            span.psw {
+            float: right;
+            padding-top: 16px;
+            }
+
+            /* The Modal (background) */
+            .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+            }
+
+            /* Modal Content/Box */
+            .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            }
+
+            /* The Close Button (x) */
+            .close {
+            position: absolute;
+            right: 25px;
+            top: 0;
+            color: #000;
+            font-size: 35px;
+            font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+            color: red;
+            cursor: pointer;
+            }
+
+            /* Add Zoom Animation */
+            .animate {
+            -webkit-animation: animatezoom 0.6s;
+            animation: animatezoom 0.6s
+            }
+
+            @-webkit-keyframes animatezoom {
+            from {-webkit-transform: scale(0)} 
+            to {-webkit-transform: scale(1)}
+            }
+            
+            @keyframes animatezoom {
+            from {transform: scale(0)} 
+            to {transform: scale(1)}
+            }
+
+            /* Change styles for span and cancel button on extra small screens */
+            @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+            .cancelbtn {
+                width: 100%;
+            }
+            }
+            .containerr{
+                width: 80%;
+            }
+            #customers {
+                font-family: Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+              }
+              
+              #customers td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+              }
+              
+              #customers tr:nth-child(even){background-color: #f2f2f2;}
+              
+              #customers tr:hover {background-color: #ddd;}
+              
+              #customers th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #4CAF50;
+                color: white;
+              }
+              
+            </style>
+    </head>
+<body>
+<br>
+<br>
+<br>
+
+
+        <div class="header">
+            
+            <!-- <h1>Header</h1> -->
+            
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                <a class="navbar-brand" href="#">Attendance System</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    {% if user.email == "dwarikadhish@gmail.com" and  user.is_authenticated%}
+                    <li><a href="user">Hello, {{user.email}}</a></li>
+                    <li><a href="changeClass">Change Class</a></li>
+                    <li><a href="changeFaculty">Change Faculty</a></li>
+                    <li><a href="changeSubject">Change Subject</a></li>
+                    <li><a href="changeSchedule">Change Schedule</a></li>
+                    <li><a href="changeStudent">Change Student</a></li>
+                    <!-- <li><a href="showAttendance">Show Attendance</a></li> -->
+                    <li><a href="showData">Show Data</a></li>
+                    <li><a href="logout">Logout</a></li>
+                    {% elif user.is_authenticated and user.email != 'dwarikadhish@gmail.com' %}
+                    <li><a href="user">Hello, {{user.email}}</a></li>
+                    <li><a href="datasetCreator">Dataset Creator</a></li>
+                    <li><a href="detect">Detector</a></li>
+                    <li><a href="changeAttendance">Change Attendance</a></li>
+                    <li><a href="showAttendance">Show Attendance</a></li>
+                    <li><a href="manualAttendance">Manual Attendance</a></li>
+                    <li><a href="logout">Logout</a></li>
+                    {% else %}
+                    <li id="i1" class="active"><a href="/register">Registration</a></li>
+                    <li><a href="/login">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+            
+        </div>
+        {% block content %}
+        <h2>Home</h2>
+        {% endblock %}
+</body>
+</html>
